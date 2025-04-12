@@ -15,7 +15,7 @@ jobs:
           python-version: '3.11'
       - run: sudo apt update && sudo apt install -y whois
       - run: pip install requests
-      - run: python check_domain.py
+      - run: python src/check_domain.py
         env:
           DOMAIN: ${{ secrets.DOMAIN }}
           WHOIS_SERVER: ${{ secrets.WHOIS_SERVER }}
