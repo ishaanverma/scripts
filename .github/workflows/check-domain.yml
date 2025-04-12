@@ -1,0 +1,22 @@
+name: domain checker
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # every hour
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - run: sudo apt update && sudo apt install -y whois
+      - run: pip install requests
+      - run: python check_domain.py
+        env:
+          DOMAIN: ${{ secrets.DOMAIN }}
+          WHOIS_SERVER: ${{ secrets.WHOIS_SERVER }}
+          NTFY_CHANNEL: ${{ secrets.NTFY_CHANNEL }}
