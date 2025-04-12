@@ -23,7 +23,11 @@ def is_available():
 
 def notify():
   msg = "domain is AVAILABLE!"
-  requests.post(f"https://ntfy.sh/{ntfy_channel}", data=msg.encode())
+  try:
+    response = requests.post(f"https://ntfy.sh/{ntfy_channel}", data=msg.encode())
+    response.raise_for_status()
+  except Exception as e:
+    print(f"Failed to send notification: {str(e)}")
 
 
 def main():
