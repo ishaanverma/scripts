@@ -1,24 +1,15 @@
 import os
-import subprocess
 import requests
 
 domain = os.environ["DOMAIN"]
-whois_server = os.environ["WHOIS_SERVER"]
 ntfy_channel = os.environ["NTFY_CHANNEL"]
 
 def is_available():
-  result = subprocess.run(
-    [
-      "whois",
-      "-h",
-      whois_server,
-      domain,
-    ],
-    capture_output=True,
-    text=True
-  )
+  # check if domain is available using google registry
+  url = f"https://www.registry.google/rdap/domain/{domain}"
+  response = requests.get(url)
 
-  return "Domain not found" in result.stdout
+  return response.status_code == 404
 
 
 def notify():
@@ -33,6 +24,8 @@ def notify():
 def main():
   if is_available():
     notify()
+  else:
+    print("Not available")
 
 
 if __name__ == "__main__":
