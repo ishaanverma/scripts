@@ -2,7 +2,7 @@ name: domain checker
 
 on:
   schedule:
-    - cron: '30 * * * *'  # every hour at minute 30
+    - cron: '30 * 13-17 5 *'  # At minute 30 on every day-of-month from 13 through 17 in May.
   workflow_dispatch:
 
 jobs:
